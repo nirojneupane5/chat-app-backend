@@ -4,25 +4,29 @@ export const signUp = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   //check user passowrd length
-  if (password.length < 6) {
-    return res
-      .status(400)
-      .json({ message: "Password must be atleast 6 characters long" });
-  }
+  try {
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be atleast 6 characters long" });
+    }
 
-  //Check if user already exists
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.status(400).json({ message: "User already exists" });
+    //Check if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+    //Create user
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
   }
-  //Create user
-  const user = await User.create({
-    firstName,
-    lastName,
-    email,
-    password,
-  });
-  res.status(201).json(user);
 };
 export const login = (req, res) => {
   res.send("Sign up route");
