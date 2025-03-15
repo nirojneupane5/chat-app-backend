@@ -31,14 +31,12 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
     });
     const token = generateToken({ id: user._id });
-    res
-      .status(201)
-      .json(
-        { message: UserAUthConstants.USER_CREATED },
-        token,
-        user._id,
-        user.firstName
-      );
+    res.status(201).json({
+      message: UserAUthConstants.USER_CREATED,
+      token,
+      userId: user._id,
+      fullName: `${user.firstName} ${user.lastName}`,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: UserAUthConstants.SOMETHING_WENT_WRONG });
