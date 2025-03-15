@@ -1,8 +1,19 @@
 import express from "express";
+import dotenv from "dotenv";
+import conntectDB from "./db.js";
+import authRoute from "./routes/auth.route.js";
+import errorHandler from "./middlewares/errorMiddleware.js";
 
 const app = express();
+dotenv.config();
 
-const port = 4000;
+conntectDB();
+const port = process.env.PORT || 8080;
+
+app.use(express.json());
+app.use("/api/auth", authRoute);
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log("Server is running on port: ", port);
