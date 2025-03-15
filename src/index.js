@@ -9,6 +9,7 @@ dotenv.config();
 conntectDB();
 const port = process.env.PORT || 8080;
 
+app.use(express.json());
 app.get("/api/auth", authRoute);
 
 app.listen(port, () => {
