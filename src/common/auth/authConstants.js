@@ -11,4 +11,6 @@ export const UserAUthConstants = {
   PASSWORD_LENGTH_ERROR: "Password must be atleast 6 characters long",
   SOMETHING_WENT_WRONG: "Something went wrong",
   USER_CREATED: "User created successfully",
+  INVALID_CREDENTIALS: "Invalid credentials",
+  SUCCESSFUL_LOGIN: "Login successful",
 };
