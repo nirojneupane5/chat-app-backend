@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { UserAUthConstants } from "../common/constants.js";
+import { generateToken } from "../lib/utils.js";
 //Route 1: Sign Up route
 export const signUp = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -29,7 +30,15 @@ export const signUp = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    res.status(201).json(user);
+    const token = generateToken({ id: user._id });
+    res
+      .status(201)
+      .json(
+        { message: UserAUthConstants.USER_CREATED },
+        token,
+        user._id,
+        user.firstName
+      );
   } catch (error) {
     res.status(500).json({ message: UserAUthConstants.SOMETHING_WENT_WRONG });
   }
