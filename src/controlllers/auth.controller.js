@@ -5,16 +5,14 @@ import asyncHandler from "../lib/asyncHandler.js";
 import { UserAUthConstants as userConst } from "../common/auth/authConstants.js";
 import { hashPassword } from "../lib/hashPassword.js";
 
-//Route 1: Sign Up route
+//Route 1: Sign Up Controller
 export const signUp = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   //Check if user already exists
   const userExists = await User.findOne({ email });
   if (userExists) {
-    return res
-      .status(400)
-      .json({ message: UserAUthConstants.USER_ALREADY_EXISTS });
+    return res.status(400).json({ message: userConst.USER_ALREADY_EXISTS });
   }
 
   //Hash the password
@@ -38,6 +36,8 @@ export const signUp = asyncHandler(async (req, res) => {
     fullName: `${user.firstName} ${user.lastName}`,
   });
 });
+
+//Route 2: Login Controller
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
