@@ -63,6 +63,3 @@ export const login = asyncHandler(async (req, res) => {
     fullName: `${user.firstName} ${user.lastName}`,
   });
 });
-export const logout = (req, res) => {
-  res.send("Sign up route");
-};
