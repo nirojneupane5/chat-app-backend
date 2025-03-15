@@ -7,16 +7,6 @@ import { signUpSchema } from "../lib/validation/userValidation.js";
 
 //Route 1: Sign Up route
 export const signUp = asyncHandler(async (req, res) => {
-  const validatedData = signUpSchema.safeParse(req.body);
-  if (!validatedData.success) {
-    return res.status(400).json({
-      message: validatedData.error.errors.map((error) => ({
-        field: error.path[0],
-        message: error.message,
-      })),
-    });
-  }
-
   const { firstName, lastName, email, password } = validatedData.data;
 
   //Check if user already exists
