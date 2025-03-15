@@ -3,17 +3,21 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import asyncHandler from "../lib/asyncHandler.js";
 import { UserAUthConstants } from "../common/auth/authConstants.js";
+import { signUpSchema } from "../lib/validation/userValidation.js";
 
 //Route 1: Sign Up route
 export const signUp = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
-
-  //check user passowrd length
-  if (password.length < UserAUthConstants.PASSWORD_MIN_LENGTH) {
-    return res
-      .status(400)
-      .json({ message: UserAUthConstants.PASSWORD_LENGTH_ERROR });
+  const validatedData = signUpSchema.safeParse(req.body);
+  if (!validatedData.success) {
+    return res.status(400).json({
+      message: validatedData.error.errors.map((error) => ({
+        field: error.path[0],
+        message: error.message,
+      })),
+    });
   }
+
+  const { firstName, lastName, email, password } = validatedData.data;
 
   //Check if user already exists
   const userExists = await User.findOne({ email });
