@@ -6,7 +6,7 @@ import { hashPassword } from "../lib/hashPassword.js";
 
 //Route 1: Sign Up route
 export const signUp = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password } = validatedData.data;
+  const { firstName, lastName, email, password } = req.body;
 
   //Check if user already exists
   const userExists = await User.findOne({ email });
