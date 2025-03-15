@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 //Route 1: Sign Up route
 export const signUp = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -16,12 +17,14 @@ export const signUp = async (req, res) => {
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     //Create user
     const user = await User.create({
       firstName,
       lastName,
       email,
-      password,
+      password: hashedPassword,
     });
     res.status(201).json(user);
   } catch (error) {
