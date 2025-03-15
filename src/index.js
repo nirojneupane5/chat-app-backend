@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import conntectDB from "./db.js";
 import authRoute from "./routes/auth.route.js";
+import errorHandler from "./middlewares/errorMiddleware.js";
 
 const app = express();
 dotenv.config();
