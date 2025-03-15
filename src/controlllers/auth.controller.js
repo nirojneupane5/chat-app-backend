@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import asyncHandler from "../lib/asyncHandler.js";
 import { UserAUthConstants } from "../common/auth/authConstants.js";
+
 //Route 1: Sign Up route
 export const signUp = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -23,7 +24,8 @@ export const signUp = asyncHandler(async (req, res) => {
   }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
-  //Create user
+
+  //Create a new user
   const user = await User.create({
     firstName,
     lastName,

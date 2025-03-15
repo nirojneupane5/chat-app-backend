@@ -1,4 +1,4 @@
-import { ErrorConstants } from "../common/constants";
+import { ErrorConstants } from "../common/constants.js";
 
 const errorHandler = (err, req, res, next) => {
   console.error("Error:", err.message);
