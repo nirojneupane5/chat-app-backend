@@ -1,8 +1,8 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import { UserAUthConstants } from "../common/constants.js";
 import { generateToken } from "../lib/utils.js";
 import asyncHandler from "../lib/asyncHandler.js";
+import { UserAUthConstants } from "../common/auth/authConstants.js";
 //Route 1: Sign Up route
 export const signUp = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
