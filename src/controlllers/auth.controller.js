@@ -1,9 +1,8 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/utils.js";
 import asyncHandler from "../lib/asyncHandler.js";
 import { UserAUthConstants } from "../common/auth/authConstants.js";
-import { signUpSchema } from "../lib/validation/userValidation.js";
+import { hashPassword } from "../lib/hashPassword.js";
 
 //Route 1: Sign Up route
 export const signUp = asyncHandler(async (req, res) => {
@@ -16,8 +15,9 @@ export const signUp = asyncHandler(async (req, res) => {
       .status(400)
       .json({ message: UserAUthConstants.USER_ALREADY_EXISTS });
   }
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+
+  //Hash the password
+  const hashedPassword = await hashPassword(password);
 
   //Create a new user
   const user = await User.create({
@@ -26,7 +26,10 @@ export const signUp = asyncHandler(async (req, res) => {
     email,
     password: hashedPassword,
   });
+
+  //Generate token
   const token = generateToken({ id: user._id });
+
   res.status(201).json({
     message: UserAUthConstants.USER_CREATED,
     token,
