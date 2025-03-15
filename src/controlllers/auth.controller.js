@@ -1,5 +1,6 @@
+//Route 1: Sign Up route
 export const signUp = (req, res) => {
-  res.send("Sign up route");
+  res.json("Sign up route");
 };
 export const login = (req, res) => {
   res.send("Sign up route");
